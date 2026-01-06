@@ -32,7 +32,6 @@ archives:
     - LICENSE
     - README.md
     - .env.example
-    - dbs/.gitkeep
 checksum:
   name_template: 'checksums.txt'
 snapshot:
