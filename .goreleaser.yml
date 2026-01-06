@@ -8,7 +8,9 @@ builds:
   ldflags:
     - -s
     - -w
-  trimpath: true
+  flags:
+    - -trimpath
+    - -a
   goos:
     - darwin
     - linux
