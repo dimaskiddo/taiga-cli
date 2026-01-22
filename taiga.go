@@ -9,9 +9,18 @@ import (
 )
 
 // --- API Response Structures ---
+type TaigaClient struct {
+	BaseURL    string
+	Token      string
+	UserID     int
+	FullName   string
+	HTTPClient *http.Client
+}
+
 type AuthResponse struct {
 	AuthToken string `json:"auth_token"`
 	ID        int    `json:"id"`
+	FullName  string `json:"full_name"`
 }
 
 type IDResponse struct {
@@ -68,6 +77,7 @@ func (c *TaigaClient) Login(user, pass string) error {
 
 	c.Token = res.AuthToken
 	c.UserID = res.ID
+	c.FullName = res.FullName
 
 	return nil
 }

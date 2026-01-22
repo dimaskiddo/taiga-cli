@@ -21,7 +21,7 @@ type ReportTask struct {
 	RawLine   string
 }
 
-func generatePDFReport(inputPath string) error {
+func generatePDFReport(inputPath string, authorName string) error {
 	file, err := os.Open(inputPath)
 	if err != nil {
 		return fmt.Errorf("Error could not open log file: %v", err)
@@ -85,10 +85,13 @@ func generatePDFReport(inputPath string) error {
 	pdf.SetFont("Arial", "B", 20)
 	pdf.SetTextColor(44, 62, 80) // Dark Slate Blue
 	pdf.Cell(0, 15, "Worklog Activity Report")
-	pdf.Ln(10)
+	pdf.Ln(12)
 
+	// Report Metadata
 	pdf.SetFont("Arial", "", 12)
 	pdf.SetTextColor(100, 100, 100) // Grey
+	pdf.Cell(0, 10, fmt.Sprintf("Author: %s", authorName))
+	pdf.Ln(5)
 	pdf.Cell(0, 10, fmt.Sprintf("Month: %s", periodLabel))
 	pdf.Ln(12)
 

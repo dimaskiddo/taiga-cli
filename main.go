@@ -19,35 +19,7 @@ type Config struct {
 	ProjectSlug string
 }
 
-type TaigaClient struct {
-	BaseURL    string
-	Token      string
-	UserID     int
-	HTTPClient *http.Client
-}
-
 func main() {
-	if len(os.Args) > 2 && (os.Args[1] == "-pdf" || os.Args[1] == "--pdf") {
-		logFile := os.Args[2]
-
-		err := generatePDFReport(logFile)
-		if err != nil {
-			fmt.Printf("Error generating PDF report: %v\n", err)
-			os.Exit(1)
-		}
-
-		fmt.Println("PDF report generated successfully")
-		return
-	}
-
-	if len(os.Args) < 2 {
-		logError("Error: No input file provided")
-		logError("Usage: ./taiga-cli <input_file>")
-		os.Exit(1)
-	}
-
-	inputFile := os.Args[1]
-
 	// 1. Setup Environment
 	err := godotenv.Load()
 	if err != nil {
@@ -74,6 +46,27 @@ func main() {
 		os.Exit(1)
 	}
 	fmt.Println("Authentication successful")
+
+	if len(os.Args) > 2 && (os.Args[1] == "-pdf" || os.Args[1] == "--pdf") {
+		logFile := os.Args[2]
+
+		err := generatePDFReport(logFile, taiga.FullName)
+		if err != nil {
+			fmt.Printf("Error generating PDF report: %v\n", err)
+			os.Exit(1)
+		}
+
+		fmt.Println("PDF report generated successfully")
+		return
+	}
+
+	if len(os.Args) < 2 {
+		logError("Error: No input file provided")
+		logError("Usage: ./taiga-cli <input_file>")
+		os.Exit(1)
+	}
+
+	inputFile := os.Args[1]
 
 	// 3. Resolve Project and Status IDs
 	projectID, err := taiga.GetProjectID(conf.ProjectSlug)
