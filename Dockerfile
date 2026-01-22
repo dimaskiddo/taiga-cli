@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 COPY . ./
 
 RUN go mod download \
-    && CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -trimpath -a -o main main.go
+    && CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -trimpath -a -o main .
 
 
 # Final Image
